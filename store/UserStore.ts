@@ -38,10 +38,12 @@ export const useUserStore = defineStore('user', () => {
                 userRole.value = role;
                 isAdmin.value = true;
                 loggedIn.value = true;
+                return;
             }
             case 'driver': {
                 userRole.value = role;
                 loggedIn.value = true;
+                return;
             }
             default:
                 return;
@@ -49,6 +51,8 @@ export const useUserStore = defineStore('user', () => {
     }
     function resetState() {
         loggedIn.value = false;
+        isAdmin.value = false;
+        userRole.value = 'nothing';
         // userToken.value = '';
         // userDetails.value = { ...EMPTY_USER };
         document.cookie = 'tt-user' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';

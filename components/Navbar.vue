@@ -1,17 +1,15 @@
 <template>
   <nav :class="{ 'navbar--hidden': !showNavbar }"
        style="z-index: 999"
-       class="px-2 shadow-md sticky top-0 sm:px-4 py-2.5 bg-dark">
+       class="px-2.5 shadow-md sticky top-0 sm:px-4 py-2.5 bg-dark">
     <div class="container flex flex-wrap items-center h-10 justify-between mx-auto">
       <img src="../assets/images/adaptive-icon.png" class="h-10" alt="">
       <nuxt-link to="/" class="flex items-center">
       </nuxt-link>
       <div class="flex items-center md:order-2">
         <div class="flex lg:w-[192px] justify-end">
-          <button type="button" class="flex mr-3 sm:ml-125 text-sm rounded-full md:mr-0 focus:shadow-purple focus:shadow-lg focus:ring-purple-200 focus:ring-2 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" :data-dropdown-toggle="isLoggedIn ? 'user-dropdown' : undefined" data-dropdown-placement="bottom">
-<!--            <nuxt-link v-else to="/drivers">-->
-<!--              <button class="bg-primary py-1 rounded-md px-2">Drivers</button>-->
-<!--            </nuxt-link>-->
+          <button v-if="isLoggedIn" @click="logout" class="bg-primary p-0.5 rounded-md px-1.5">
+            Logout
           </button>
         </div>
         <!-- Dropdown menu -->
@@ -21,17 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import {initCollapses, initDropdowns} from "flowbite";
 import {useUserStore} from "~/store/UserStore";
-import MealMindLogo from "~/components/svg/MealMindLogo.vue";
+import {navigateTo} from "#app";
 onMounted(()=>{
-  initCollapses();
-  initDropdowns();
   window.addEventListener('scroll', onScroll)
-})
-onUpdated(()=>{
-  initCollapses();
-  initDropdowns();
 })
 onBeforeUnmount(()=>{
   window.removeEventListener('scroll', onScroll)
@@ -56,6 +47,7 @@ const userStore = useUserStore()
 const isLoggedIn = computed(() => userStore.loggedIn)
 function logout() {
   userStore.logout();
+  navigateTo('/')
 }
 
 function handleNavigation() {
