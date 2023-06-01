@@ -17,11 +17,13 @@
 
 <script setup lang="ts">
 import {checkUserRole} from "~/utils/pocketbase";
-import {UserRole} from "~/models/apiModels";
 import {useUserStore} from "~/store/UserStore";
 import {navigateTo} from "#app";
 
 const userId = ref('')
+if(useUserStore().isAdmin) {
+  navigateTo('/drivers')
+}
 async function authenticate() {
   const role = await checkUserRole(userId.value);
   await useUserStore().authenticate(role)
