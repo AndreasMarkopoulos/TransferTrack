@@ -12,6 +12,7 @@
   </div>
   <div id="driver-list-actions" class="h-8 flex items-center justify-between px-2 bg-dark bg-opacity-60 rounded w-[95%] mx-auto mb-2">
     <font-awesome-icon size="lg" @click="quickRefresh" :icon="faRefresh" :spin="localLoading" class="text-primary cursor-pointer"/>
+    <button v-if="activeTab===2" @click="callResetAttendance" class="text-link">Reset Attendance</button>
     <div class="flex gap-4">
       <font-awesome-icon size="lg" @click="sortType='tripcount-desc'" v-if="sortType!=='tripcount-desc' && sortType!=='tripcount-asc'" :icon="faSortAmountDesc" class="text-primary cursor-pointer"/>
       <font-awesome-icon size="lg" @click="sortType='tripcount-desc'" v-if="sortType==='tripcount-asc'" :icon="faSortAmountDesc" class="text-link cursor-pointer"/>
@@ -50,7 +51,7 @@ import DriverListItem from "~/components/DriverListItem.vue";
 import {useIntervalFn} from "@vueuse/core";
 import {Ref} from "vue";
 import {useGlobalStore} from "~/store/GlobalStore";
-import {updateDriverAttendance} from "~/utils/pocketbase";
+import {resetAttendance, updateDriverAttendance} from "~/utils/pocketbase";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {
   faRefresh,
@@ -112,15 +113,14 @@ async function fetchData() {
   try {
     const data = await fetchDrivers();
     const todayTrips = await fetchTodayTrips();
-    const driversWithTripCount = data.map((driver) => {
+    drivers.value = data.map((driver) => {
       const tripCount = todayTrips.filter((trip) => trip.driverId === driver.id).length;
       return { ...driver, tripCount };
     });
-    drivers.value = driversWithTripCount;
   } catch (error) {
     console.error(error);
   }
-};
+}
 function openNewTripModal(driver: Driver) {
   selectedDriver.value = driver;
   showNewTripModal.value = true;
@@ -136,6 +136,12 @@ async function setDriverPresent(driver: Driver) {
   useGlobalStore().stopLoading();
 }
 
+async function callResetAttendance() {
+  useGlobalStore().startLoading();
+  await resetAttendance()
+  await fetchData();
+  useGlobalStore().stopLoading();
+}
 async function quickRefresh() {
   localLoading.value = true;
   await fetchData();
