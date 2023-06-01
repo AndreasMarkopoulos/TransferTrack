@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+    html {
+        @apply scroll-smooth;
+    }
+}
+.font-vollkorn {
+    font-family: 'Vollkorn SC', serif;
+}
+
+:root {
+    --primary-color: #E6E0E9;
+    --secondary-color: #E6E0E9;
+    --background-color: #141218;
+    --tab-icon-default-color: #777;
+    --link-color: #147efb;
+    --transparent-color: rgba(44, 44, 46, 0.8);
+}
+body { background-color: #141218!important;height: 100vh;	overscroll-behavior: contain;
+}
+html {
+    background-color: #141218!important;
+}

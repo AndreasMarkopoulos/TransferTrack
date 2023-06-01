@@ -1,0 +1,13 @@
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "theme": {
+    "colors": {
+      "primary": "#E6E0E9",
+      "dark": "#CAC4D0",
+      "secondary": "#141218",
+      "link": "#147efb",
+      "transparent": "rgba(44, 44, 46, 0.8)",  // Configure your color palette here
+    }
+  }
+}
