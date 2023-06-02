@@ -1,12 +1,12 @@
 <template>
   <div id="driver-list-tabs" class="h-7 justify-between flex w-[95%] mx-auto mb-2.5 items-center">
-    <button class="w-[30%] bg-primary py-0.5 rounded" @click="activeTab=0" :class="activeTab===0 ? 'opacity-100' : 'opacity-20'">
+    <button class="w-[33%] border-b-2 text-primary bg-semidark py-0.5 mb-2 rounded-sm" @click="activeTab=0" :class="activeTab===0 ? 'opacity-100 border-primary' : 'opacity-60 border-semidark'">
       Free ({{ drivers.filter(x => x.present && !x.busy).length }})
     </button>
-    <button class="w-[30%] bg-primary py-0.5 rounded" @click="activeTab=1" :class="activeTab===1 ? 'opacity-100' : 'opacity-20'">
+    <button class="w-[33%] border-b-2 text-primary bg-semidark py-0.5 mb-2 rounded-sm" @click="activeTab=1" :class="activeTab===1 ? 'opacity-100 border-primary' : 'opacity-60 border-semidark'">
       Busy ({{ drivers.filter(x => x.present && x.busy).length }})
     </button>
-    <button class="w-[30%] bg-primary py-0.5 rounded" @click="activeTab=2" :class="activeTab===2 ? 'opacity-100' : 'opacity-20'">
+    <button class="w-[33%] border-b-2 text-primary bg-semidark py-0.5 mb-2 rounded-sm" @click="activeTab=2" :class="activeTab===2 ? 'opacity-100 border-primary' : 'opacity-60 border-semidark'">
       Absent ({{ drivers.filter(x => !x.present).length }})
     </button>
   </div>

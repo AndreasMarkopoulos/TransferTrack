@@ -3,7 +3,7 @@
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
     <div class="fixed inset-0 z-10 overflow-y-auto">
-      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[1px]">
+      <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0 bg-[rgba(255,255,255,0.1)] backdrop-blur-[1px]">
 
         <div id="modal-content" ref="modalContent" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-[95%] sm:my-8 sm:w-full sm:max-w-lg bg-semidark">
           <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
@@ -40,8 +40,8 @@
 import {Driver} from "~/models/apiModels";
 import {PropType} from "@vue/runtime-core";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import {faCircleXmark, faFlagCheckered} from "@fortawesome/free-solid-svg-icons";
-import {setTripFinished} from '../utils/pocketbase'
+import {faFlagCheckered} from "@fortawesome/free-solid-svg-icons";
+import {setTripFinished} from '~/utils/pocketbase'
 import {useGlobalStore} from "~/store/GlobalStore";
 import {onClickOutside} from "@vueuse/core";
 const modalContent = ref<HTMLElement | null>(null)

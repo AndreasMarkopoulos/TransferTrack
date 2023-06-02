@@ -8,7 +8,7 @@
       </nuxt-link>
       <div class="flex items-center md:order-2">
         <div class="flex lg:w-[192px] justify-end">
-          <button v-if="isLoggedIn" @click="logout" class="bg-primary p-0.5 rounded-md px-1.5">
+          <button v-if="isLoggedIn" @click="logout" class="bg-primary p-0.5 rounded-md px-1.5 text-sm">
             Logout
           </button>
         </div>

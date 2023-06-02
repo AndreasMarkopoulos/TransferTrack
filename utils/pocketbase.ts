@@ -114,15 +114,15 @@ export async function setTripFinished(driverId: string): Promise<void> {
         console.log(response.data)
         const trips: Trip[] = response.data.items;
 
-        const unfinishedTrip = trips.find(trip => !trip.finishedAt);
+        const lastTrip = trips[0];
         // console.log(trips)
-        if (unfinishedTrip) {
+        if (!lastTrip.finishedAt) {
             // Update the trip fields
             // @ts-ignore
-            unfinishedTrip.finishedAt = new Date();
+            lastTrip.finishedAt = new Date();
 
             // Save the updated trip record
-            await axios.patch(`https://mealmind-pocketbase.fly.dev/api/collections/trips/records/${unfinishedTrip.id}`, {finishedAt:unfinishedTrip.finishedAt});
+            await axios.patch(`https://mealmind-pocketbase.fly.dev/api/collections/trips/records/${lastTrip.id}`, {finishedAt:lastTrip.finishedAt});
             await setDriverBusyStatus(driverId,false);
             // console.log(updatedTrip.data)
         } else {

@@ -1,9 +1,10 @@
 <template>
   <div class="bg-semidark w-[90%] p-1.5 pr-4 my-1.5 text-primary rounded-sm flex items-center justify-between border-r-2" :class="statusColorClass">
     <router-link :to="`/drivers/${props.driver.id}`" class="flex items-center gap-4">
-      <img :src="`https://mealmind-pocketbase.fly.dev/api/files/drivers/${props.driver.id}/${props.driver.picture}`" class="w-10 h-10 rounded border border-dark">
+      <img :src="`https://mealmind-pocketbase.fly.dev/api/files/drivers/${props.driver.id}/${props.driver.picture}`"
+           class="w-10 h-10 rounded border border-dark">
       <div>
-        <p class="text-primary font-semibold">{{props.driver.name}}</p>
+        <p class="text-primary font-semibold">{{props.driver.nickname ?? props.driver.name}}</p>
         <p class="text-light text-xs">{{props.driver.carModel}}</p>
       </div>
     </router-link>
