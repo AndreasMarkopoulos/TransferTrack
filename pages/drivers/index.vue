@@ -11,7 +11,10 @@
     </button>
   </div>
   <div id="driver-list-actions" class="h-8 flex items-center justify-between px-2 bg-dark bg-opacity-60 rounded w-[95%] mx-auto mb-2">
-    <font-awesome-icon size="lg" @click="quickRefresh" :icon="faRefresh" :spin="localLoading" class="text-primary cursor-pointer"/>
+    <div class="flex justify-between w-14">
+      <font-awesome-icon size="lg" @click="quickRefresh" :icon="faRefresh" :spin="localLoading" class="text-primary cursor-pointer"/>
+      <font-awesome-icon size="lg" @click="showNewDriverModal=true" :icon="faAdd" class="text-primary cursor-pointer"/>
+    </div>
     <button v-if="activeTab===2" @click="callResetAttendance" class="text-link">Reset Attendance</button>
     <div class="flex gap-4">
       <font-awesome-icon size="lg" @click="sortType='tripcount-desc'" v-if="sortType!=='tripcount-desc' && sortType!=='tripcount-asc'" :icon="faSortAmountDesc" class="text-primary cursor-pointer"/>
@@ -43,6 +46,12 @@
                   @update="fetchData"
                   @close="showEndTripModal = false"/>
   </transition>
+  <transition>
+    <NewDriverModal v-if="showNewDriverModal"
+                    :driver="selectedDriver"
+                    @update="fetchData"
+                    @close="showNewDriverModal = false"/>
+  </transition>
 </template>
 
 <script setup lang="ts">
@@ -54,6 +63,7 @@ import {useGlobalStore} from "~/store/GlobalStore";
 import {resetAttendance, updateDriverAttendance} from "~/utils/pocketbase";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {
+  faAdd,
   faRefresh,
   faSortAlphaAsc,
   faSortAlphaDesc,
@@ -72,6 +82,7 @@ const drivers = ref<Driver[]>([])
 const activeTab: Ref<number> = ref(0)
 const sortType: Ref<SortingOption> = ref('tripcount-asc')
 const showNewTripModal = ref(false)
+const showNewDriverModal = ref(false)
 const showEndTripModal = ref(false)
 const selectedDriver: Ref<Driver | undefined> = ref()
 const localLoading = ref(false)

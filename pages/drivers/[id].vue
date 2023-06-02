@@ -35,7 +35,7 @@
       <div class="text-primary">
         <div class="flex items-center p-2 border-b border-t border-light opacity-50 mb-2">
           <div @click="showPickup=!showPickup" class="text-xs text-link text-center w-[40%] flex items-center justify-center sm:hidden">
-            <div class="flex items-center justify-between gap-2 w-10">
+            <div class="flex items-center justify-center gap-2 w-10">
               <font-awesome-icon :icon="faRightLeft"/>
               <p>{{ showPickup ? 'Pickup' : 'Target'}}</p>
             </div>

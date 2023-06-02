@@ -60,12 +60,7 @@ export async function createDriver(driver: DriverCreateRequest): Promise<void> {
         const formData = new FormData();
         formData.append('name', driver.name);
         if(driver.picture!=='') {
-            formData.append('picture', {
-                // @ts-ignore
-                uri: driver.picture, // Assuming driver.picture is the file path or file URL
-                name: 'driver_picture.jpg', // Provide a desired filename for the image
-                type: 'image/jpeg', // Adjust the MIME type according to your image file
-            });
+            formData.append('picture', driver.picture);
         }
         formData.append('phone', driver.phone.toString());
         formData.append('present', driver.present.toString());
