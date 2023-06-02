@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Driver, DriverCreateRequest, Trip, TripCreateRequest, UserRole} from "../models/apiModels";
+import {Driver, DriverCreateRequest, Trip, TripCreateRequest, UserRole} from "~/models/apiModels";
 
 export async function fetchDrivers(): Promise<Driver[]> {
     try {
@@ -15,8 +15,7 @@ export async function fetchDrivers(): Promise<Driver[]> {
 export async function fetchDriver(driverId: string): Promise<Driver> {
     try {
         const response = await axios.get(`https://mealmind-pocketbase.fly.dev/api/collections/drivers/records/${driverId}`);
-        const driver = response.data;
-        return driver;
+        return response.data;
     } catch (error) {
         console.error(error);
         throw error;
@@ -104,16 +103,17 @@ async function setDriverBusyStatus(driverId: string, busy: boolean) {
 
 export async function setTripFinished(driverId: string): Promise<void> {
     try {
-
+        console.log(driverId)
         // Fetch the trips associated with the driver
         const response = await axios.get('https://mealmind-pocketbase.fly.dev/api/collections/trips/records', {
             params: {
                 driverId,
+                sort:'-created'
             },
         });
+        console.log(response.data)
         const trips: Trip[] = response.data.items;
 
-        // Find the trip with finished: false
         const unfinishedTrip = trips.find(trip => !trip.finishedAt);
         // console.log(trips)
         if (unfinishedTrip) {
