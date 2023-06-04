@@ -1,8 +1,12 @@
 <template>
+  <a href="" @click.prevent="$router.back()" class="flex items-center gap-1.5 text-light px-10 py-1 mb-5">
+    <font-awesome-icon size="sm" :icon="faChevronLeft"></font-awesome-icon>
+    <p class="pb-0.5">Back</p>
+  </a>
   <div v-if="driver && driver.id" class="items-center flex flex-col">
     <div class="flex gap-5 w-[80%] bg-semidark p-3 rounded">
       <img :src="`https://mealmind-pocketbase.fly.dev/api/files/drivers/${driver.id}/${driver.picture}`" alt=""
-           class="w-28 h-28 rounded border">
+           class="w-28 h-28 rounded border border-elevated">
       <div class="flex flex-col justify-center">
         <p class="text-3xl text-primary font-bold">{{driver.nickname}}</p>
         <p class="text-lg text-light">{{driver.name}}</p>
@@ -78,7 +82,7 @@ import {fetchDriver, fetchTrips} from "~/utils/pocketbase";
 import {Driver, PaginationInfo, Trip} from "~/models/apiModels";
 import {Ref} from "vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import {faCircle, faPhone, faRightLeft} from "@fortawesome/free-solid-svg-icons";
+import {faChevronLeft, faCircle, faPhone, faRightLeft} from "@fortawesome/free-solid-svg-icons";
 import {useUserStore} from "~/store/UserStore";
 import {navigateTo} from "#app";
 import {useGlobalStore} from "~/store/GlobalStore";
