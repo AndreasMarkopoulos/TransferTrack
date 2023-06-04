@@ -27,7 +27,7 @@
     <div class="flex flex-col items-center mt-5">
       <span class="text-sm text-light dark:text-gray-400">
         Showing page <span class="font-semibold dark:text-white">{{ paginationInfo.page }}</span> of <span class="font-semibold dark:text-white">{{paginationInfo.totalPages}}</span>
-    </span>
+      </span>
       <div class="inline-flex mt-2 xs:mt-0 border-1 border-light">
         <button @click="getPrevPage"
                 :disabled="paginationInfo.page === 1"

@@ -7,8 +7,8 @@
         <img src="../assets/images/adaptive-icon.png" class="h-10" alt="">
       </a>
       <div class="text-primary flex justify-between h-[3.4rem] gap-1 w-32 tracking-wide">
-        <nuxt-link v-if="isLoggedIn" to="/drivers" class="w-[4rem] flex items-center justify-center border-b-2 border-elevated opacity-60 font-semibold">Drivers</nuxt-link>
-        <nuxt-link v-if="isLoggedIn" to="/trips" class="w-[4rem] flex items-center justify-center border-b-2 border-elevated opacity-60 font-semibold">Trips</nuxt-link>
+        <nuxt-link v-if="isAdmin" to="/drivers" class="w-[4rem] flex items-center justify-center border-b-2 border-elevated opacity-60 font-semibold">Drivers</nuxt-link>
+        <nuxt-link v-if="isAdmin" to="/trips" class="w-[4rem] flex items-center justify-center border-b-2 border-elevated opacity-60 font-semibold">Trips</nuxt-link>
       </div>
       <div class="flex items-center md:order-2 justify-end w-[20%]">
         <div class="flex lg:w-[192px] justify-end">
@@ -48,20 +48,13 @@ function onScroll() {
 const showNavbar = ref(true);
 const lastScrollPosition = ref(0);
 const userStore = useUserStore()
-const isLoggedIn = computed(() => userStore.loggedIn)
+const isLoggedIn = computed(() => useUserStore().loggedIn)
+const isAdmin = computed(() => useUserStore().isAdmin)
 function logout() {
   userStore.logout();
   navigateTo('/')
 }
 
-function handleNavigation() {
-  if(isLoggedIn.value) {
-    navigateTo('/my-meal-plans')
-  }
-  else {
-    navigateTo('/login')
-  }
-}
 </script>
 
 <style>

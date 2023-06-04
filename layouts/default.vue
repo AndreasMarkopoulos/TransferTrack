@@ -4,9 +4,10 @@
     <transition name="fade" mode="out-in">
       <loading class="backdrop-blur-[1px]" v-if="isLoading" />
     </transition>
-    <div class="mt-5">
+    <div class="mt-5 mb-10">
       <slot/>
     </div>
+<!--    <div class="border-t mt-10 py-3 text-elevated text-sm flex justify-center items-center">TransferTrack® by Dreasa</div>-->
   </div>
 </template>
 

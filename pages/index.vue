@@ -24,15 +24,18 @@ const userId = ref('')
 if(useUserStore().isAdmin) {
   navigateTo('/drivers')
 }
+if(useUserStore().isDriver) {
+  navigateTo('/activity')
+}
 async function authenticate() {
   const role = await checkUserRole(userId.value);
-  await useUserStore().authenticate(role)
+  await useUserStore().authenticate(role,userId.value)
   console.log(useUserStore().isAdmin)
   if(useUserStore().isAdmin) {
     navigateTo('/drivers')
   }
-  if(useUserStore()) {
-    navigateTo('/drivers')
+  if(useUserStore().isDriver) {
+    navigateTo('/activity')
   }
 }
 </script>

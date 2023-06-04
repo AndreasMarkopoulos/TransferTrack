@@ -237,9 +237,10 @@ export async function getDriverDetails(driverId: string): Promise<{ driver: Driv
             const formattedId = driverId.replace(" ", "");
 
             const [driverResponse, tripsResponse] = await Promise.all([
-                axios.get<Driver>(`https://mealmind-pocketbase.fly.dev/api/collections/drivers/records/${formattedId}`),
-                axios.get<{ items:Trip[] }>(`https://mealmind-pocketbase.fly.dev/api/collections/trips/records?driverId=${formattedId}`,{
+                axios.get<Driver>(`https://mealmind-pocketbase.fly.dev/api/collections/drivers/records/${driverId}`),
+                axios.get<{ items:Trip[] }>('https://mealmind-pocketbase.fly.dev/api/collections/trips/records',{
                     params: {
+                        filter: `driverId='${formattedId}'`,
                         sort: '-created'
                     },
                 })
