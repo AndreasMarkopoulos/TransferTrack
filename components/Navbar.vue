@@ -6,13 +6,13 @@
       <nuxt-link to="/" class="flex items-center w-[20%]">
         <img src="../assets/images/adaptive-icon.png" class="h-10" alt="">
       </nuxt-link>
-      <div class="text-primary flex justify-between h-[3.4rem] gap-0.5 w-32 tracking-wide">
-        <nuxt-link v-if="isLoggedIn" to="/drivers" class="w-[4rem] flex items-center justify-center">Drivers</nuxt-link>
-        <nuxt-link v-if="isLoggedIn" to="/trips" class="w-[4rem] flex items-center justify-center">Trips</nuxt-link>
+      <div class="text-primary flex justify-between h-[3.4rem] gap-1 w-32 tracking-wide">
+        <nuxt-link v-if="isLoggedIn" to="/drivers" class="w-[4rem] flex items-center justify-center border-b-2 border-elevated opacity-60 font-semibold">Drivers</nuxt-link>
+        <nuxt-link v-if="isLoggedIn" to="/trips" class="w-[4rem] flex items-center justify-center border-b-2 border-elevated opacity-60 font-semibold">Trips</nuxt-link>
       </div>
       <div class="flex items-center md:order-2 justify-end w-[20%]">
         <div class="flex lg:w-[192px] justify-end">
-          <button v-if="isLoggedIn" @click="logout" class="bg-primary p-0.5 rounded-md px-1.5 text-sm">
+          <button v-if="isLoggedIn" @click="logout" class="bg-primary py-1 rounded-md px-1.5 text-sm font-semibold">
             Logout
           </button>
         </div>
@@ -75,9 +75,9 @@ function handleNavigation() {
   transform: translate3d(0, -100%, 0);
   transition: all 0.3s ease-in-out; /* add this line */
 }
-.nuxt-link-active {
-  font-weight: bold;
-  background: #E6E0E9!important;
+.router-link-active {
+  border-bottom: 2px solid #CAC4D0;
+  opacity: 100;
 }
 
 </style>

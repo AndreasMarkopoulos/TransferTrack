@@ -14,7 +14,8 @@ export const useUserStore = defineStore('user', () => {
     //     isNew: false,
     // }
     const loggedIn = ref(false);
-    const isAdmin = ref(false);
+    const isAdmin = computed(() => userRole.value === 'admin')
+    const isDriver = computed(() => userRole.value === 'driver')
     // const userToken = ref('')
     // const userDetails = ref({...EMPTY_USER});
     const userRole = ref<UserRole>('nothing')
@@ -36,7 +37,6 @@ export const useUserStore = defineStore('user', () => {
                 return;
             case 'admin': {
                 userRole.value = role;
-                isAdmin.value = true;
                 loggedIn.value = true;
                 return;
             }
@@ -51,7 +51,6 @@ export const useUserStore = defineStore('user', () => {
     }
     function resetState() {
         loggedIn.value = false;
-        isAdmin.value = false;
         userRole.value = 'nothing';
         // userToken.value = '';
         // userDetails.value = { ...EMPTY_USER };
@@ -69,6 +68,7 @@ export const useUserStore = defineStore('user', () => {
         // setUserToken,
         authenticate,
         isAdmin,
+        isDriver,
         loggedIn,
         logout
     }

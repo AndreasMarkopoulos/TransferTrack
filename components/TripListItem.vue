@@ -15,7 +15,7 @@
     <nuxt-link :to="`/drivers/${props.trip.expand?.driverId.id}`" class="text-center text-link w-[30%] sm:w-[15%] overflow-x-hidden text-ellipsis">
       {{props.trip.expand?.driverId.nickname}}
     </nuxt-link>
-    <div v-if="showPickup" class="text-center w-[30%] sm:w-[36%] sm:hidden overflow-x-hidden text-ellipsis">{{props.trip.pickupLocation}}</div>
+    <div v-if="showPickup" class="text-center w-[36%] sm:w-[36%] sm:hidden overflow-x-hidden text-ellipsis">{{props.trip.pickupLocation}}</div>
     <div v-else class="text-center w-[36%] overflow-x-hidden text-ellipsis sm:hidden">{{props.trip.targetLocation}}</div>
 
     <div class="text-center w-[36%] hidden sm:block">{{props.trip.pickupLocation}}</div>

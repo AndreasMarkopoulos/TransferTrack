@@ -31,6 +31,9 @@ async function authenticate() {
   if(useUserStore().isAdmin) {
     navigateTo('/drivers')
   }
+  if(useUserStore()) {
+    navigateTo('/drivers')
+  }
 }
 </script>
 

@@ -35,7 +35,7 @@ function keyEventsHandler(e: any): void {
   right: 0;
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.1);
-  z-index: 2000;
+  z-index: 998;
 }
 
 .spinner-centered {

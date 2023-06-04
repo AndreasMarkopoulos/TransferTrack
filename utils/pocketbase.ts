@@ -48,8 +48,7 @@ export async function fetchTrips(driverId?: string, options: PaginationOptions =
                 },
             }
         )
-        const trips = await response.data;
-        return trips;
+        return response.data;
     } catch (error) {
         console.error(error);
         throw error;
@@ -117,13 +116,15 @@ export async function setTripFinished(driverId: string): Promise<void> {
         // Fetch the trips associated with the driver
         const response = await axios.get('https://mealmind-pocketbase.fly.dev/api/collections/trips/records', {
             params: {
-                driverId,
-                sort:'-created'
+                filter:`driverId='${driverId}' && finishedAt=''`,
+                sort:'-created',
             },
         });
         console.log(response.data)
         const trips: Trip[] = response.data.items;
-
+        if(!trips.length) {
+            throw new Error('Could not find unfinished trip')
+        }
         const lastTrip = trips[0];
         // console.log(trips)
         if (!lastTrip.finishedAt) {

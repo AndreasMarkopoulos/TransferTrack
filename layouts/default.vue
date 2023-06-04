@@ -4,7 +4,7 @@
     <transition name="fade" mode="out-in">
       <loading class="backdrop-blur-[1px]" v-if="isLoading" />
     </transition>
-    <div class="mt-3">
+    <div class="mt-5">
       <slot/>
     </div>
   </div>
