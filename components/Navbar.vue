@@ -3,9 +3,9 @@
        style="z-index: 999"
        class="px-2.5 shadow-md sticky top-0 sm:px-4 bg-dark">
     <div class="container flex flex-wrap items-center h-10  h-full justify-between mx-auto">
-      <nuxt-link to="/" class="flex items-center w-[20%]">
+      <a href="/" class="flex items-center w-[20%]">
         <img src="../assets/images/adaptive-icon.png" class="h-10" alt="">
-      </nuxt-link>
+      </a>
       <div class="text-primary flex justify-between h-[3.4rem] gap-1 w-32 tracking-wide">
         <nuxt-link v-if="isLoggedIn" to="/drivers" class="w-[4rem] flex items-center justify-center border-b-2 border-elevated opacity-60 font-semibold">Drivers</nuxt-link>
         <nuxt-link v-if="isLoggedIn" to="/trips" class="w-[4rem] flex items-center justify-center border-b-2 border-elevated opacity-60 font-semibold">Trips</nuxt-link>
