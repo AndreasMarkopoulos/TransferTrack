@@ -7,8 +7,8 @@
         <img src="../assets/images/adaptive-icon.png" class="h-10" alt="">
       </nuxt-link>
       <div class="text-primary flex justify-between h-[3.4rem] gap-0.5 w-32 tracking-wide">
-        <nuxt-link to="/drivers" class="w-[4rem] flex items-center justify-center">Drivers</nuxt-link>
-        <nuxt-link to="/trips" class="w-[4rem] flex items-center justify-center">Trips</nuxt-link>
+        <nuxt-link v-if="isLoggedIn" to="/drivers" class="w-[4rem] flex items-center justify-center">Drivers</nuxt-link>
+        <nuxt-link v-if="isLoggedIn" to="/trips" class="w-[4rem] flex items-center justify-center">Trips</nuxt-link>
       </div>
       <div class="flex items-center md:order-2 justify-end w-[20%]">
         <div class="flex lg:w-[192px] justify-end">
