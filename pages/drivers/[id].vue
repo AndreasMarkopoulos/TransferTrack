@@ -35,7 +35,7 @@
       <div class="text-primary">
         <div class="flex items-center p-2 border-b border-t border-light opacity-50 mb-2">
           <div @click="showPickup=!showPickup" class="text-xs text-link text-center w-[40%] flex items-center justify-center sm:hidden">
-            <div class="flex items-center justify-center gap-2 w-10">
+            <div class="flex items-center justify-center gap-2 w-10 cursor-pointer">
               <font-awesome-icon :icon="faRightLeft"/>
               <p>{{ showPickup ? 'Pickup' : 'Target'}}</p>
             </div>
@@ -46,17 +46,8 @@
           <div class="text-xs text-center w-[20%]">Started</div>
           <div class="text-xs text-center w-[20%]">Finished</div>
         </div>
-        <div v-for="trip in trips" class="flex items-center bg-semidark rounded mb-1.5 p-2">
-
-          <div v-if="showPickup" class="text-center w-[40%] sm:hidden">{{trip.pickupLocation}}</div>
-          <div v-else class="text-center w-[40%] sm:hidden">{{trip.targetLocation}}</div>
-
-          <div class="text-center w-[40%] hidden sm:block">{{trip.pickupLocation}}</div>
-          <div class="text-center w-[40%] hidden sm:block">{{trip.targetLocation}}</div>
-          <div class="text-center w-[20%]">{{formatDate(trip.created).day}}</div>
-          <div class="text-center w-[20%]">{{formatDate(trip.created).time}}</div>
-          <div v-if="trip.finishedAt" class="text-center w-[20%]">{{formatDate(trip.finishedAt).time}}</div>
-          <font-awesome-icon v-else :icon="faCircle" class="text-center w-[20%] text-success" fade/>
+        <div v-for="trip in trips">
+          <trip-list-item :trip="trip" :show-pickup="showPickup" :on-drivers-page="true"></trip-list-item>
         </div>
       </div>
     </div>
@@ -88,7 +79,7 @@ async function getDriverDetails() {
   driver.value = await fetchDriver(route.params.id as string)
 }
 async function getDriverTrips() {
-  trips.value = await fetchTrips(route.params.id as string)
+  trips.value = (await fetchTrips(route.params.id as string)).items
 }
 </script>
 

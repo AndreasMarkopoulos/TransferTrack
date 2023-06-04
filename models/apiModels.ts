@@ -26,9 +26,25 @@ export interface Trip {
     pickupLocation: string,
     finishedAt: string,
     driverId: string,
-    created: string
+    created: string,
+    expand?: {
+        driverId: Driver
+    },
 }
 
+export interface PaginationOptions {
+    page?: number;
+    pageSize?: number;
+}
+export interface PaginationInfo {
+    page: number,
+    perPage: number,
+    totalItems: number,
+    totalPages: number,
+}
+export interface CollectionResponse<T> extends PaginationInfo{
+    items: T
+}
 export interface TripCreateRequest {
     targetLocation: string,
     pickupLocation: string,

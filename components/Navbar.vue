@@ -1,12 +1,16 @@
 <template>
   <nav :class="{ 'navbar--hidden': !showNavbar }"
        style="z-index: 999"
-       class="px-2.5 shadow-md sticky top-0 sm:px-4 py-2.5 bg-dark">
-    <div class="container flex flex-wrap items-center h-10 justify-between mx-auto">
-      <img src="../assets/images/adaptive-icon.png" class="h-10" alt="">
-      <nuxt-link to="/" class="flex items-center">
+       class="px-2.5 shadow-md sticky top-0 sm:px-4 bg-dark">
+    <div class="container flex flex-wrap items-center h-10  h-full justify-between mx-auto">
+      <nuxt-link to="/" class="flex items-center w-[20%]">
+        <img src="../assets/images/adaptive-icon.png" class="h-10" alt="">
       </nuxt-link>
-      <div class="flex items-center md:order-2">
+      <div class="text-primary flex justify-between h-[3.4rem] gap-0.5 w-32 tracking-wide">
+        <nuxt-link to="/drivers" class="w-[4rem] flex items-center justify-center">Drivers</nuxt-link>
+        <nuxt-link to="/trips" class="w-[4rem] flex items-center justify-center">Trips</nuxt-link>
+      </div>
+      <div class="flex items-center md:order-2 justify-end w-[20%]">
         <div class="flex lg:w-[192px] justify-end">
           <button v-if="isLoggedIn" @click="logout" class="bg-primary p-0.5 rounded-md px-1.5 text-sm">
             Logout
@@ -60,7 +64,7 @@ function handleNavigation() {
 }
 </script>
 
-<style scoped>
+<style>
 @media screen and (min-width: 500px) {
   sm\:ml-125 {
     margin-left: 125px
@@ -71,4 +75,9 @@ function handleNavigation() {
   transform: translate3d(0, -100%, 0);
   transition: all 0.3s ease-in-out; /* add this line */
 }
+.nuxt-link-active {
+  font-weight: bold;
+  background: #E6E0E9!important;
+}
+
 </style>

@@ -1,5 +1,13 @@
 import axios from "axios";
-import {Driver, DriverCreateRequest, Trip, TripCreateRequest, UserRole} from "~/models/apiModels";
+import {
+    CollectionResponse,
+    Driver,
+    DriverCreateRequest,
+    PaginationOptions,
+    Trip,
+    TripCreateRequest,
+    UserRole
+} from "~/models/apiModels";
 
 export async function fetchDrivers(): Promise<Driver[]> {
     try {
@@ -21,26 +29,33 @@ export async function fetchDriver(driverId: string): Promise<Driver> {
         throw error;
     }
 }
-
-export async function fetchTrips(driverId: string): Promise<Trip[]> {
+export async function fetchTrips(driverId?: string, options: PaginationOptions = {}): Promise<CollectionResponse<Trip[]>> {
     try {
+        let filter = '';
+        if (driverId) {
+            filter += `driverId='${driverId}'`;
+        }
+
         const response = await axios.get(
             'https://mealmind-pocketbase.fly.dev/api/collections/trips/records',
             {
                 params: {
-                    filter: `driverId='${driverId}'`,
-                    sort: '-created'
+                    filter: filter,
+                    sort: '-created',
+                    expand: 'driverId',
+                    perPage: options.pageSize,
+                    page: options.page
                 },
             }
-        );
+        )
         const trips = await response.data;
-        // console.log(response.data)
-        return trips.items;
+        return trips;
     } catch (error) {
         console.error(error);
         throw error;
     }
 }
+
 
 export async function createTrip(newTrip: TripCreateRequest) {
     try {

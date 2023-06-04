@@ -119,7 +119,7 @@ onMounted(async () => {
 })
 useIntervalFn(() => {
   fetchData();
-}, 10000)
+}, 5000)
 async function fetchData() {
   try {
     const data = await fetchDrivers();
