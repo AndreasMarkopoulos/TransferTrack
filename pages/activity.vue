@@ -57,7 +57,7 @@
         <trip-list-item :trip="trip" :show-pickup="showPickup" :on-drivers-page="true"></trip-list-item>
       </div>
     </div>
-    <div class="flex flex-col items-center mt-5">
+    <div v-if="trips.length" class="flex flex-col items-center mt-5">
       <span class="text-sm text-light dark:text-gray-400">
         Showing page <span class="font-semibold dark:text-white">{{ paginationInfo.page }}</span> of <span class="font-semibold dark:text-white">{{paginationInfo.totalPages}}</span>
       </span>
@@ -113,15 +113,18 @@ if(!useUserStore().isDriver || !useUserStore().loggedIn) {
 
 onMounted(async () => {
   useGlobalStore().startLoading();
-  await getPage(1)
-  await getDriverInformation();
+  await fetchData();
   useGlobalStore().stopLoading();
 })
 
 useIntervalFn(() => {
-  getPage(paginationInfo.value.page);
-
+  fetchData();
 }, 5000)
+
+async function fetchData() {
+  await getPage(paginationInfo.value.page)
+  await getDriverInformation();
+}
 async function getDriverInformation() {
   driver.value = await fetchDriver(driverId)
 }

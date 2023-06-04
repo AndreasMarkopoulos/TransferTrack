@@ -50,18 +50,39 @@
           <trip-list-item :trip="trip" :show-pickup="showPickup" :on-drivers-page="true"></trip-list-item>
         </div>
       </div>
+      <div v-if="trips.length" class="flex flex-col items-center mt-5">
+      <span class="text-sm text-light dark:text-gray-400">
+        Showing page <span class="font-semibold dark:text-white">{{ paginationInfo.page }}</span> of <span class="font-semibold dark:text-white">{{paginationInfo.totalPages}}</span>
+      </span>
+        <div class="inline-flex mt-2 xs:mt-0 border-1 border-light">
+          <button @click="getPrevPage"
+                  :disabled="paginationInfo.page === 1"
+                  :class="paginationInfo.page === 1 ? 'opacity-30' : ''"
+                  class="px-4 py-2 text-sm font-medium text-light bg-semidark rounded-l hover:bg-gray-900">
+            Prev
+          </button>
+          <button @click="getNextPage"
+                  :disabled="paginationInfo.page === paginationInfo.totalPages"
+                  :class="paginationInfo.page === paginationInfo.totalPages ? 'opacity-30' : ''"
+                  class="px-4 py-2 text-sm font-medium text-light bg-semidark border-0 border-l border-light rounded-r hover:bg-gray-900">
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {fetchDriver, fetchTrips} from "~/utils/pocketbase";
-import {Driver, Trip} from "~/models/apiModels";
+import {Driver, PaginationInfo, Trip} from "~/models/apiModels";
 import {Ref} from "vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {faCircle, faPhone, faRightLeft} from "@fortawesome/free-solid-svg-icons";
 import {useUserStore} from "~/store/UserStore";
 import {navigateTo} from "#app";
+import {useGlobalStore} from "~/store/GlobalStore";
+import {useIntervalFn} from "@vueuse/core";
 if(!useUserStore().isAdmin) {
   navigateTo('/')
 }
@@ -69,17 +90,53 @@ const route = useRoute()
 const driver: Ref<Driver | undefined> = ref()
 const trips: Ref<Trip[]> = ref([])
 const showPickup = ref(true)
-
-onMounted(() => {
-  getDriverDetails();
-  getDriverTrips();
+const paginationInfo = ref<PaginationInfo>({
+  page: 1,
+  perPage: 0,
+  totalPages:0,
+  totalItems: 0
 })
 
+onMounted(() => {
+  fetchData();
+})
+
+useIntervalFn(() => {
+  fetchData();
+},5000)
+async function fetchData() {
+  await getDriverDetails();
+  await getPage(paginationInfo.value.page);
+}
 async function getDriverDetails() {
   driver.value = await fetchDriver(route.params.id as string)
 }
-async function getDriverTrips() {
-  trips.value = (await fetchTrips(route.params.id as string)).items
+async function getNextPage() {
+  useGlobalStore().startLoading();
+  if (paginationInfo.value.page < paginationInfo.value.totalPages) {
+    await getPage(paginationInfo.value.page + 1);
+  }
+  useGlobalStore().stopLoading();
+}
+async function getPrevPage() {
+  useGlobalStore().startLoading();
+  if(paginationInfo.value.page>1) {
+    await getPage(paginationInfo.value.page - 1);
+  }
+  useGlobalStore().stopLoading();
+}
+async function getPage(page: number) {
+  if(!driver.value) {
+    return
+  }
+  const response = await fetchTrips(driver.value.id,{page:page, pageSize:10})
+  trips.value = response.items;
+  paginationInfo.value = {
+    page: response.page,
+    perPage: response.perPage,
+    totalPages:response.totalPages,
+    totalItems: response.totalItems
+  }
 }
 </script>
 
