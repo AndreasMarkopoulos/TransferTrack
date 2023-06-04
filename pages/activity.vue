@@ -25,7 +25,7 @@
           <div class="text-2xl font-bold">{{driver.nickname}}</div>
         </div>
         <div class="flex items-end gap-2">
-          <div class="text-5xl">{{trips.length}}</div>
+          <div class="text-5xl">{{paginationInfo.totalItems}}</div>
           <div class="text-xs">Total <br/> Trips</div>
         </div>
 
