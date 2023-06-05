@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="hidden sm:block text-end w-[18em] border-t border-elevated px-4 pt-1 rounded">
+      <div class="text-end sm:w-[18em] w-[80%] mx-auto border-t border-elevated px-4 pt-1 mt-4 sm:mt-0">
         <button @click="showDeleteDriverModal = true">
           <font-awesome-icon class="text-error" size="md" :icon="faTrashCan"></font-awesome-icon>
         </button>

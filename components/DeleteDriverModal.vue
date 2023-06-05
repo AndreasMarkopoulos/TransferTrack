@@ -9,10 +9,10 @@
           <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:flex-col sm:items-center">
               <div class="flex mb-5 justify-center gap-3 items-center px-4">
-                <font-awesome-icon :icon="faFlagCheckered" class="text-primary "/>
-                <h3 class="leading-6 text-primary text-center text-lg" id="modal-title">Delete {{props.driver.nickname}}</h3>
+                <font-awesome-icon :icon="faTrashCan" class="text-primary "/>
+                <h3 class="leading-6 text-primary text-center text-lg" id="modal-title">Delete {{props.driver.nickname}}?</h3>
               </div>
-              <p class="text-primary text-center">Are you sure you want to delete this driver?<br/> All the data related to him including trips will be deleted</p>
+              <p class="text-primary text-center">Are you sure you want to delete this driver?<br/> Trips made by this driver will no longer display his name nor be connected to him.</p>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                 <div class="flex-col items-center flex">
 
@@ -40,7 +40,7 @@
 import {Driver} from "~/models/apiModels";
 import {PropType} from "@vue/runtime-core";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import {faFlagCheckered} from "@fortawesome/free-solid-svg-icons";
+import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {useGlobalStore} from "~/store/GlobalStore";
 import {onClickOutside} from "@vueuse/core";
 import {navigateTo} from "#app";
