@@ -45,6 +45,9 @@
                       <div class=" px-2.5 rounded-full text-primary text-xs text-center ">{{newDriver.picture ? 'Change Image' : 'Add Image'}}</div>
                       <input class="block w-full text-sm text-gray-900 border-gray-300 rounded-lg cursor-pointer text-primary hidden" id="file_input" @change="handlePictureChange" type="file">
                     </label>
+                    <div v-if="newDriver.picture && previewImage" class="w-[100px] h-[100px] mx-auto my-2">
+                      <img :src="previewImage" alt="Preview" class="w-full h-full object-cover rounded">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -141,12 +144,12 @@ import {faCab, faCircle} from "@fortawesome/free-solid-svg-icons";
 import {useGlobalStore} from "~/store/GlobalStore";
 import {onClickOutside} from "@vueuse/core";
 
-const modalContent = ref<HTMLElement | null>(null)
-const activeStep = ref(0)
-
+const modalContent = ref<HTMLElement | null>(null);
+const activeStep = ref(0);
+const previewImage = ref<string>('');
 const newDriver = ref<DriverCreateRequest>({
   name: '',
-  picture: '',
+  picture: null,
   phone: 69,
   present: true,
   carModel: '',
@@ -183,9 +186,37 @@ onClickOutside(modalContent, () => {
 })
 function handlePictureChange(event: any) {
   const file = event.target.files[0];
-  // You can store the file object directly in newDriver.picture
-  newDriver.value.picture = file;
+  console.log(file)
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const maxSize = Math.min(img.width, img.height);
+      const offsetX = (img.width - maxSize) / 2;
+      const offsetY = (img.height - maxSize) / 2;
+
+      canvas.width = 256;
+      canvas.height = 256;
+      ctx?.drawImage(img, offsetX, offsetY, maxSize, maxSize, 0, 0, 256, 256);
+
+      const dataURL = canvas.toDataURL();
+      canvas.toBlob((blob) => {
+        newDriver.value.picture = blob;
+      })
+      previewImage.value = dataURL;
+
+      console.log(newDriver.value.picture)
+    };
+
+    img.src = e.target.result as string;
+  };
+
+  reader.readAsDataURL(file);
 }
+
 function handleEnterKey(event: any) {
   if (event.keyCode === 13) {
     if (!nextButton?.value.disabled) {

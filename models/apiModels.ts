@@ -12,7 +12,7 @@ export interface Driver {
 }
 export interface DriverCreateRequest {
     name: string,
-    picture: string,
+    picture: Blob | null,
     phone: number,
     present: boolean,
     carModel: string,
