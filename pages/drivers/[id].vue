@@ -68,7 +68,7 @@
     </div>
     <div class="mb-3 items-center text-center mt-5 flex gap-2">
       <p class="text-xl text-primary font-bold ">Trips</p>
-      <p class="text-xl text-primary opacity-50">({{trips.length}})</p>
+      <p class="text-xl text-primary opacity-50">({{paginationInfo.totalItems}})</p>
     </div>
     <div class="w-[95%] sm:w-[80%]">
       <div class="text-primary">
