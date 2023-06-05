@@ -141,7 +141,7 @@ export async function setTripFinished(driverId: string): Promise<void> {
         }
     } catch (error) {
         console.error(error);
-        throw error;
+        return;
     }
 }
 
@@ -165,12 +165,22 @@ export async function resetAttendance(): Promise<void> {
         throw error;
     }
 }
-
+export async function deleteDriver(driverId: string) {
+    try {
+        await setTripFinished(driverId);
+        await axios.delete(`https://mealmind-pocketbase.fly.dev/api/collections/drivers/records/${driverId}`);
+    }
+    catch(error) {
+        console.log('Error while deleting driver')
+    }
+}
 export async function updateDriverAttendance(driverId: string, present: boolean): Promise<void> {
     try {
         const response = await axios.get(`https://mealmind-pocketbase.fly.dev/api/collections/drivers/records/${driverId}`);
         const driver = response.data;
-
+        if(!present && driver.busy) {
+            throw new Error('You can not set this driver as absent because he is currently busy.')
+        }
         const updatedDriver = {
             ...driver,
             present: present,
@@ -183,7 +193,6 @@ export async function updateDriverAttendance(driverId: string, present: boolean)
         // console.log(`Driver ${driverId} attendance updated`);
     } catch (error) {
         console.error(error);
-        throw error;
     }
 }
 

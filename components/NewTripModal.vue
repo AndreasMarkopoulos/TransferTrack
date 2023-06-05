@@ -46,7 +46,7 @@
                     class="bg-primary inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
               Continue →
             </button>
-            <button v-else @click="startTrip" type="button" class="bg-primary inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">Start Trip</button>
+            <button v-else @click="startTrip" :disabled="newTrip.targetLocation===''" :class="newTrip.targetLocation==='' ? 'bg-semidark border border-light text-primary' : 'bg-primary border'" type="button" class="bg-primary inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">Start Trip</button>
             <button @click="$emit('close')" type="button" class="bg-error mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-inset sm:mt-0 sm:w-auto">Cancel</button>
           </div>
         </div>

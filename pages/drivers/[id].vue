@@ -4,25 +4,37 @@
     <p class="pb-0.5">Back</p>
   </a>
   <div v-if="driver && driver.id" class="items-center flex flex-col text-primary">
-    <div class="flex justify-center gap-5 sm:h-[12rem] bg-dark py-4 w-[80%] mx-auto rounded">
-      <img :src="`https://mealmind-pocketbase.fly.dev/api/files/drivers/${driver.id}/${driver.picture}`"
-           class="w-28 h-28 sm:w-[10rem] sm:h-[10rem] rounded border border-dark">
-      <div class="flex flex-col justify-between">
-        <div class=" border-b border-light pb-0.5 border-opacity-75">
-          <div class="text-lg">{{driver.name}}</div>
-          <div class="text-2xl font-bold">{{driver.nickname}}</div>
+    <div class="bg-dark pb-3 pt-4 w-[80%] mx-auto rounded sm:h-[15rem] sm:w-[22rem] sm:flex sm:items-center sm:justify-between sm:flex-col sm:gap-y-5">
+      <div class="flex justify-center gap-5 w-[18em]">
+        <img :src="`https://mealmind-pocketbase.fly.dev/api/files/drivers/${driver.id}/${driver.picture}`"
+             onerror="this.src='https://www.stignatius.co.uk/wp-content/uploads/2020/10/default-user-icon.jpg'"
+             class="w-28 h-28 sm:w-[10rem] sm:h-[10rem] rounded border border-dark">
+        <div class="flex flex-col justify-between w-24">
+          <div class=" border-b border-light pb-0.5 border-opacity-75">
+            <div class="text-lg">{{driver.name}}</div>
+            <div class="text-2xl font-bold">{{driver.nickname}}</div>
+          </div>
+          <div class="flex items-end gap-2">
+            <div class="text-5xl">{{paginationInfo.totalItems}}</div>
+            <div class="text-xs">Total <br/> Trips</div>
+          </div>
         </div>
-        <div class="flex items-end gap-2">
-          <div class="text-5xl">{{paginationInfo.totalItems}}</div>
-          <div class="text-xs">Total <br/> Trips</div>
-        </div>
+      </div>
+      <div class="hidden sm:block text-end w-[18em] border-t border-elevated px-4 pt-1 rounded">
+        <button @click="showDeleteDriverModal = true">
+          <font-awesome-icon class="text-error" size="md" :icon="faTrashCan"></font-awesome-icon>
+        </button>
       </div>
     </div>
 
     <div class="w-[80%] mt-5">
       <p class="text-xl text-primary font-semibold mb-2">Status</p>
       <div class="bg-semidark px-2 py-2 rounded">
-        <div v-if="!driver.present" class="font-bold text-errorDark">Absent</div>
+        <div v-if="!driver.present" class="font-bold text-error sm:flex justify-between">
+          Absent
+          <button @click="setPresent" class="sm:hidden bg-primary mt-3 py-1 text-secondary text-sm font-semibold rounded w-full">Set Present</button>
+          <button @click="setPresent" class="hidden sm:block bg-primary px-2 py-1 text-secondary text-sm font-semibold rounded">Set Present</button>
+        </div>
         <div v-else-if="driver.busy && trips.length" class="flex flex-col items-center">
           <div class="items-center border-b border-elevated w-full pb-2 mb-2 flex justify-between">
             <p class="font-bold text-warning ">Busy</p>
@@ -123,15 +135,27 @@
                   @update="fetchData"
                   @close="showNewTripModal = false">
     </NewTripModal>
+    <DeleteDriverModal
+        v-if="showDeleteDriverModal"
+        :driver="driver"
+        @update="fetchData"
+        @close="showDeleteDriverModal = false">
+    </DeleteDriverModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import {fetchDriver, fetchTrips} from "~/utils/pocketbase";
+import {fetchDriver, fetchTrips, updateDriverAttendance} from "~/utils/pocketbase";
 import {Driver, PaginationInfo, Trip} from "~/models/apiModels";
 import {Ref} from "vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import {faArrowRight, faChevronLeft, faCircle, faPhone, faRightLeft} from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRight,
+  faChevronLeft,
+  faPhone,
+  faRightLeft,
+  faTrashCan
+} from "@fortawesome/free-solid-svg-icons";
 import {useUserStore} from "~/store/UserStore";
 import {navigateTo} from "#app";
 import {useGlobalStore} from "~/store/GlobalStore";
@@ -145,6 +169,7 @@ const trips: Ref<Trip[]> = ref([])
 const showPickup = ref(true)
 const showEndTripModal = ref(false)
 const showNewTripModal = ref(false)
+const showDeleteDriverModal = ref(false)
 const paginationInfo = ref<PaginationInfo>({
   page: 1,
   perPage: 0,
@@ -178,6 +203,12 @@ async function getPrevPage() {
   if(paginationInfo.value.page>1) {
     await getPage(paginationInfo.value.page - 1);
   }
+  useGlobalStore().stopLoading();
+}
+async function setPresent() {
+  useGlobalStore().startLoading();
+  await updateDriverAttendance(driver.value!.id,true);
+  await fetchData();
   useGlobalStore().stopLoading();
 }
 async function getPage(page: number) {

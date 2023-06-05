@@ -18,6 +18,7 @@
     </div>
     <div class="flex justify-center gap-5 sm:h-[10rem] bg-dark sm:bg-secondary py-4 w-[80%] mx-auto rounded">
       <img :src="`https://mealmind-pocketbase.fly.dev/api/files/drivers/${driver.id}/${driver.picture}`"
+           onerror="this.src='https://www.stignatius.co.uk/wp-content/uploads/2020/10/default-user-icon.jpg'"
            class="w-28 h-28 sm:w-[10rem] sm:h-[10rem] rounded border border-dark">
       <div class="flex flex-col justify-between">
         <div class=" border-b border-light pb-0.5 border-opacity-75">
@@ -95,6 +96,7 @@ const trips = ref<Trip[]>([]);
 const showEndTripModal = ref(false);
 const showPickup = ref(false);
 const activeTrip = computed(():Trip | null => {
+  if(!trips.value.length) return null;
   if(!trips.value[0].finishedAt) {
     return trips.value[0];
   }
@@ -122,8 +124,8 @@ useIntervalFn(() => {
 }, 5000)
 
 async function fetchData() {
-  await getPage(paginationInfo.value.page)
   await getDriverInformation();
+  await getPage(paginationInfo.value.page)
 }
 async function getDriverInformation() {
   driver.value = await fetchDriver(driverId)
