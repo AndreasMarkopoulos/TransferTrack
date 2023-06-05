@@ -3,17 +3,52 @@
     <font-awesome-icon size="sm" :icon="faChevronLeft"></font-awesome-icon>
     <p class="pb-0.5">Back</p>
   </a>
-  <div v-if="driver && driver.id" class="items-center flex flex-col">
-    <div class="flex gap-5 w-[80%] bg-semidark p-3 rounded">
-      <img :src="`https://mealmind-pocketbase.fly.dev/api/files/drivers/${driver.id}/${driver.picture}`" alt=""
-           class="w-28 h-28 rounded border border-elevated">
-      <div class="flex flex-col justify-center">
-        <p class="text-3xl text-primary font-bold">{{driver.nickname}}</p>
-        <p class="text-lg text-light">{{driver.name}}</p>
+  <div v-if="driver && driver.id" class="items-center flex flex-col text-primary">
+    <div class="flex justify-center gap-5 sm:h-[12rem] bg-dark py-4 w-[80%] mx-auto rounded">
+      <img :src="`https://mealmind-pocketbase.fly.dev/api/files/drivers/${driver.id}/${driver.picture}`"
+           class="w-28 h-28 sm:w-[10rem] sm:h-[10rem] rounded border border-dark">
+      <div class="flex flex-col justify-between">
+        <div class=" border-b border-light pb-0.5 border-opacity-75">
+          <div class="text-lg">{{driver.name}}</div>
+          <div class="text-2xl font-bold">{{driver.nickname}}</div>
+        </div>
+        <div class="flex items-end gap-2">
+          <div class="text-5xl">{{paginationInfo.totalItems}}</div>
+          <div class="text-xs">Total <br/> Trips</div>
+        </div>
       </div>
     </div>
+
     <div class="w-[80%] mt-5">
-      <p class="text-xl text-primary font-bold mb-3">Details</p>
+      <p class="text-xl text-primary font-semibold mb-2">Status</p>
+      <div class="bg-semidark px-2 py-2 rounded">
+        <div v-if="!driver.present" class="font-bold text-errorDark">Absent</div>
+        <div v-else-if="driver.busy && trips.length" class="flex flex-col items-center">
+          <div class="items-center border-b border-elevated w-full pb-2 mb-2 flex justify-between">
+            <p class="font-bold text-warning ">Busy</p>
+            <div class="sm:hidden flex text-xs gap-1 items-baseline">since <p class="text-sm">{{formatDate(trips[0].created).time}}</p></div>
+            <button @click="showEndTripModal = true" class="hidden sm:block bg-primary px-2 py-1 text-secondary text-sm font-semibold rounded">End Trip</button>
+          </div>
+          <div class="flex justify-between w-full">
+            <div class="hidden sm:block">{{formatDate(trips[0].created).time}}</div>
+              <div class="flex w-full sm:w-auto justify-between">
+                <div class="w-full flex gap-5 justify-between">
+                  {{trips[0].pickupLocation}}
+                  <div>
+                    <font-awesome-icon size="xs" :icon="faArrowRight"></font-awesome-icon>
+                  </div>
+                  {{trips[0].targetLocation}}
+                </div>
+              </div>
+          </div>
+          <button @click="showEndTripModal = true" class="sm:hidden bg-primary mt-3 py-1 text-secondary text-sm font-semibold rounded w-full">End Trip</button>
+        </div>
+        <div v-else-if="!driver.busy" class="font-bold text-success">Free</div>
+      </div>
+    </div>
+
+    <div class="w-[80%] mt-5">
+      <p class="text-xl text-primary font-semibold mb-2">Details</p>
       <div class="bg-semidark rounded py-2 mb-1.5 flex gap-2">
         <p class="text-light opacity-50 w-10 text-center">ID</p>
         <p class="text-primary">{{ driver.id }}</p>
@@ -74,6 +109,11 @@
         </div>
       </div>
     </div>
+    <EndTripModal v-if="showEndTripModal"
+                  :driver="driver"
+                  @update="fetchData"
+                  @close="showEndTripModal = false">
+    </EndTripModal>
   </div>
 </template>
 
@@ -82,7 +122,7 @@ import {fetchDriver, fetchTrips} from "~/utils/pocketbase";
 import {Driver, PaginationInfo, Trip} from "~/models/apiModels";
 import {Ref} from "vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import {faChevronLeft, faCircle, faPhone, faRightLeft} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faChevronLeft, faCircle, faPhone, faRightLeft} from "@fortawesome/free-solid-svg-icons";
 import {useUserStore} from "~/store/UserStore";
 import {navigateTo} from "#app";
 import {useGlobalStore} from "~/store/GlobalStore";
@@ -94,6 +134,7 @@ const route = useRoute()
 const driver: Ref<Driver | undefined> = ref()
 const trips: Ref<Trip[]> = ref([])
 const showPickup = ref(true)
+const showEndTripModal = ref(false)
 const paginationInfo = ref<PaginationInfo>({
   page: 1,
   perPage: 0,

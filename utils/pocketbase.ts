@@ -73,7 +73,7 @@ export async function createDriver(driver: DriverCreateRequest): Promise<void> {
     try {
         const formData = new FormData();
         formData.append('name', driver.name);
-        if(driver.picture!=='') {
+        if(driver.picture) {
             formData.append('picture', driver.picture);
         }
         formData.append('phone', driver.phone.toString());
@@ -147,9 +147,12 @@ export async function setTripFinished(driverId: string): Promise<void> {
 
 export async function resetAttendance(): Promise<void> {
     try {
-        const response = await axios.get('https://mealmind-pocketbase.fly.dev/api/collections/drivers/records');
+        const response = await axios.get('https://mealmind-pocketbase.fly.dev/api/collections/drivers/records',{
+            params: {
+                filter: "busy=false"
+            }
+        });
         const drivers = response.data.items;
-
         const updatePromises = drivers.map(async (driver: Driver) => {
             await updateDriverAttendance(driver.id, false);
         });
