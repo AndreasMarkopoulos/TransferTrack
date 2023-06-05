@@ -43,7 +43,11 @@
           </div>
           <button @click="showEndTripModal = true" class="sm:hidden bg-primary mt-3 py-1 text-secondary text-sm font-semibold rounded w-full">End Trip</button>
         </div>
-        <div v-else-if="!driver.busy" class="font-bold text-success">Free</div>
+        <div v-else-if="!driver.busy" class="font-bold text-success sm:flex justify-between">
+          Free
+          <button @click="showNewTripModal = true" class="sm:hidden bg-primary mt-3 py-1 text-secondary text-sm font-semibold rounded w-full">New Trip</button>
+          <button @click="showNewTripModal = true" class="hidden sm:block bg-primary px-2 py-1 text-secondary text-sm font-semibold rounded">New Trip</button>
+        </div>
       </div>
     </div>
 
@@ -114,6 +118,11 @@
                   @update="fetchData"
                   @close="showEndTripModal = false">
     </EndTripModal>
+    <NewTripModal v-if="showNewTripModal"
+                  :driver="driver"
+                  @update="fetchData"
+                  @close="showNewTripModal = false">
+    </NewTripModal>
   </div>
 </template>
 
@@ -135,6 +144,7 @@ const driver: Ref<Driver | undefined> = ref()
 const trips: Ref<Trip[]> = ref([])
 const showPickup = ref(true)
 const showEndTripModal = ref(false)
+const showNewTripModal = ref(false)
 const paginationInfo = ref<PaginationInfo>({
   page: 1,
   perPage: 0,
