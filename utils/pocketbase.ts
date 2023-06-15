@@ -218,6 +218,27 @@ export async function fetchTodayTrips(): Promise<any[]> {
 }
 
 
+export async function fetchTripsByDate(date: Date): Promise<any[]> {
+    try {
+        const currentDate = new Date(date).toISOString().split('T')[0]; // Get today's date
+        const startTime = `${currentDate} 00:00:00`;
+        const endTime = `${currentDate} 23:59:59`;
+
+        const response = await axios.get('https://mealmind-pocketbase.fly.dev/api/collections/trips/records', {
+            params: {
+                filter: `created >= "${startTime}" && created <= "${endTime}"`,
+            },
+        });
+
+        const trips = response.data.items;
+        console.log('Today\'s trips:', trips.length);
+        return trips;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 export async function checkUserRole(id: string): Promise<UserRole> {
     const formattedId = id.replace(" ","");
     try {
