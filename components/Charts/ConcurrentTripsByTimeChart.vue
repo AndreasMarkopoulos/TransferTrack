@@ -9,6 +9,7 @@
 import {Chart, ChartItem, registerables} from 'chart.js';
 import {Trip} from "~/models/apiModels";
 import {PropType} from "@vue/runtime-core";
+import {chartNoDataPlugin} from "~/utils/genericUtils";
 
 Chart.register(...registerables);
 interface ConcurrentTrip {
@@ -92,6 +93,7 @@ onMounted(async () => {
       document.getElementById('chart-1') as ChartItem,
       {
         type: 'line',
+        plugins:[chartNoDataPlugin],
         data: {
           labels: chart1Data.value.map(row => row.time),
           datasets: [

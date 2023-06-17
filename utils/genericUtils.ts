@@ -34,3 +34,36 @@ async function uploadImage(imageUri: string): Promise<void> {
         throw error;
     }
 }
+
+export const chartNoDataPlugin = {
+    id: 'emptyChart',
+    afterDraw(chart: any) {
+        const { datasets } = chart.data;
+        let hasData = false;
+
+        for (let dataset of datasets) {
+            //set this condition according to your needs
+            if (dataset.data.length > 0 && (dataset.data as any[]).some(item => item !== 0)) {
+                hasData = true;
+                break;
+            }
+        }
+
+        if (!hasData) {
+            //type of ctx is CanvasRenderingContext2D
+            //https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+            //modify it to your liking
+            const { chartArea: { left, top, right, bottom }, ctx } = chart;
+            const centerX = (left + right) / 2;
+            const centerY = (top + bottom) / 2;
+
+            chart.clear();
+            ctx.save();
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = "#CAC4D0";
+            ctx.fillText('No trips for selected date', centerX, centerY);
+            ctx.restore();
+        }
+    }
+};

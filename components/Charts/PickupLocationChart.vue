@@ -1,5 +1,5 @@
 <template>
-  <div className="overflow-x-scroll sm:overflow-x-auto">
+  <div>
     <canvas id="chart-3">
     </canvas>
   </div>
@@ -9,6 +9,7 @@
 import {Chart, ChartItem, registerables} from 'chart.js';
 import {Trip} from "~/models/apiModels";
 import {PropType} from "@vue/runtime-core";
+import {chartNoDataPlugin} from "~/utils/genericUtils";
 
 Chart.register(...registerables);
 
@@ -72,6 +73,7 @@ onMounted(async () => {
       document.getElementById('chart-3') as ChartItem,
       {
         type: 'doughnut',
+        plugins:[chartNoDataPlugin],
         data: {
           labels,
           datasets: [
