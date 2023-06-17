@@ -65,7 +65,7 @@ import {createTrip} from '~/utils/pocketbase'
 import {useGlobalStore} from "~/store/GlobalStore";
 import {onClickOutside} from "@vueuse/core";
 const modalContent = ref<HTMLElement | null>(null)
-const piers = [{name:'1',value:'ΠΡΟΒΛΗΤΑ 1'}, {name:'2',value:'ΠΡΟΒΛΗΤΑ 2'}, {name:'3',value:'ΠΡΟΒΛΗΤΑ 3'}, {name:'4',value:'ΠΡΟΒΛΗΤΑ 4'}, {name:'5',value:'ΠΡΟΒΛΗΤΑ 5'}, {name:'6',value:'ΠΡΟΒΛΗΤΑ 6'}, {name:'7',value:'ΠΡΟΒΛΗΤΑ 7'}, {name:'8',value:'ΠΡΟΒΛΗΤΑ 8'}, {name:'9',value:'ΠΡΟΒΛΗΤΑ 9'}, {name:'ΧΩΡΙΟ',value:'ΧΩΡΙΟ'}]
+const piers = [{name:'1',value:'ΠΡΟΒΛΗΤΑ 1'}, {name:'2',value:'ΠΡΟΒΛΗΤΑ 2'}, {name:'3',value:'ΠΡΟΒΛΗΤΑ 3'}, {name:'4',value:'ΠΡΟΒΛΗΤΑ 4'}, {name:'5',value:'ΠΡΟΒΛΗΤΑ 5'}, {name:'6',value:'ΠΡΟΒΛΗΤΑ 6'}, {name:'7',value:'ΠΡΟΒΛΗΤΑ 7'}, {name:'8',value:'ΠΡΟΒΛΗΤΑ 8'}, {name:'9',value:'ΠΡΟΒΛΗΤΑ 9'}, {name:'ΧΩΡΙΟ',value:'ΧΩΡΙΟ'},{name:'ΚΑΜΙΑ',value:'-'}]
 const shops = ['ΑΦΡΟΔΙΤΗΣ','ΠΡΙΓΚΙΠΟΣ','ΒΟΥΛΑ']
 const props = defineProps({
   driver: {
