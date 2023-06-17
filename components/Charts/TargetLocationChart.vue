@@ -20,6 +20,7 @@ interface TargetLocationVisit {
 
 const chart1Data = ref<TargetLocationVisit[]>([])
 const chart = ref()
+const uniqueId = ref<number>(Math.floor(Math.random()*10000))
 
 const props = defineProps({
   selectedDateTrips: {
@@ -55,7 +56,6 @@ async function refreshData() {
   // const originalTrips = JSON.stringify(selectedDateTrips.value)
   // selectedDateTrips.value =  await fetchTripsByDate(props.date);
   chart1Data.value = getTargetLocationVisits(props.selectedDateTrips);
-  console.log(chart1Data.value)
   const chart = Chart.getChart(document.getElementById('chart-2') as HTMLCanvasElement)
   // chart.data.datasets[0].data = [chart1Data.value.map(row => row.concurrentTrips)]
   if (chart) {

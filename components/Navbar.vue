@@ -2,7 +2,7 @@
   <nav :class="{ 'navbar--hidden': !showNavbar }"
        style="z-index: 999"
        class="px-2.5 shadow-md sticky top-0 sm:px-4 bg-dark">
-    <div class="container flex flex-wrap items-center h-10  h-full justify-between mx-auto">
+    <div class="flex flex-wrap items-center h-10 h-full justify-between w- mx-auto">
       <a href="/" class="flex items-center w-[20%]">
         <img src="../assets/images/adaptive-icon.png" class="h-10" alt="">
       </a>

@@ -55,7 +55,6 @@ async function refreshData() {
   // const originalTrips = JSON.stringify(selectedDateTrips.value)
   // selectedDateTrips.value =  await fetchTripsByDate(props.date);
   chart1Data.value = getPickupLocationVisits(props.selectedDateTrips);
-  console.log(chart1Data.value)
   const chart = Chart.getChart(document.getElementById('chart-3') as HTMLCanvasElement)
   // chart.data.datasets[0].data = [chart1Data.value.map(row => row.concurrentTrips)]
   if (chart) {

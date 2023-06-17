@@ -30,7 +30,6 @@ if(useUserStore().isDriver) {
 async function authenticate() {
   const role = await checkUserRole(userId.value);
   await useUserStore().authenticate(role,userId.value)
-  console.log(useUserStore().isAdmin)
   if(useUserStore().isAdmin) {
     navigateTo('/drivers')
   }

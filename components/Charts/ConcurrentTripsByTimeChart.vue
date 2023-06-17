@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-x-scroll sm:overflow-x-auto">
+  <div class="overflow-x-scroll sm:overflow-x-auto section">
     <canvas class="sm-line-chart" id="chart-1">
     </canvas>
   </div>
@@ -142,5 +142,24 @@ onMounted(async () => {
 <style scoped>
 .sm-line-chart {
   height: 25rem;min-width:100rem;margin:auto
+}
+.section::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #36343B;
+}
+.section::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: rgba(30, 185, 128,0.8);
+}
+.section::-webkit-scrollbar-thumb:hover {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #37efba;
+}
+.section::-webkit-scrollbar {
+  width: 12px;
+  height: 6px;
 }
 </style>

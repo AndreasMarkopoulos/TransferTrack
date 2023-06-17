@@ -137,10 +137,9 @@
 </template>
 
 <script setup lang="ts">
-import {Driver, DriverCreateRequest} from "~/models/apiModels";
-import {PropType} from "@vue/runtime-core";
+import {DriverCreateRequest} from "~/models/apiModels";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import {faCab, faCircle} from "@fortawesome/free-solid-svg-icons";
+import {faCab} from "@fortawesome/free-solid-svg-icons";
 import {useGlobalStore} from "~/store/GlobalStore";
 import {onClickOutside} from "@vueuse/core";
 
@@ -186,7 +185,6 @@ onClickOutside(modalContent, () => {
 })
 function handlePictureChange(event: any) {
   const file = event.target.files[0];
-  console.log(file)
   const reader = new FileReader();
   reader.onload = (e) => {
     const img = new Image();
@@ -208,10 +206,9 @@ function handlePictureChange(event: any) {
       })
       previewImage.value = dataURL;
 
-      console.log(newDriver.value.picture)
     };
 
-    img.src = e.target.result as string;
+    img.src = e.target?.result as string;
   };
 
   reader.readAsDataURL(file);

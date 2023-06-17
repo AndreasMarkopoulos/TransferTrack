@@ -1,14 +1,14 @@
 <template>
-  <div class="sm:flex items-start justify-between px-10 gap-x-5 ">
+  <div class="sm:flex items-start px-10 gap-x-[4%]">
     <div>
-      <Datepicker v-model="selectedDate" dark inline auto-apply />
+      <Datepicker v-model="selectedDate" dark inline auto-apply/>
     </div>
-    <div>
+    <div class="sm:w-[80%]">
       <div class="bg-darker rounded-lg p-5 my-5 sm:mt-0">
         <h1 class="text-primary text-2xl ml-5 mb-4">Active trips by time</h1>
         <ConcurrentTripsByTimeChart :selected-date-trips="selectedDateTrips"></ConcurrentTripsByTimeChart>
       </div>
-      <div class="sm:flex gap-x-5 w-full">
+      <div class="sm:flex gap-x-5">
         <div class="bg-darker rounded-lg p-5 mt-5 sm:mt-0 sm:w-[50%]">
           <h1 class="text-primary text-2xl ml-5 mb-4">Trips by pickup location</h1>
           <PickupLocationChart :selected-date-trips="selectedDateTrips"></PickupLocationChart>
